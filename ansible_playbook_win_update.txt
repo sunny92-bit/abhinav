@@ -1,0 +1,60 @@
+- name: Ansible Copy Example Local to Remote
+  hosts: win
+  tasks:
+    - name: copying file from local ansible master host to remote Windows 2012 R2 servers
+      ansible.windows.win_copy:
+        src: /tmp/WIN2012R2/win2012R2.msu
+        dest: C:\Users\ansible_user
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2012 R2 Standard"
+
+    - name: copying file from local ansible master host to remote Windows 2019 Datacenter servers
+      ansible.windows.win_copy:
+        src: /tmp/WIN2019/win_2019_STACK.msu
+        dest: C:\Users\ansible_user
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2019 Datacenter"
+
+    - name: copying file from local ansible master host to remote Windows 2016 Datacenter servers
+      ansible.windows.win_copy:
+        src: /tmp/WIN2016/win_2016.msu
+        dest: C:\Users\ansible_user
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2016 Datacenter"
+
+    - name: copying file from local ansible master host to remote Windows Server 2012 Standard
+      ansible.windows.win_copy:
+        src: /tmp/WIN2012/win_2012.msu
+        dest: C:\Users\ansible_user
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2012 Standard"
+
+
+    - name: install hotfix without validating the KB and Identifier
+      community.windows.win_hotfix:
+        source: C:\Users\ansible_user\win2012R2.msu
+        state: present
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2012 R2 Standard"
+      register: hotfix_install_2012R2
+    
+    - name: install hotfix without validating the KB and Identifier
+      community.windows.win_hotfix:
+        source: C:\Users\ansible_user\win_2019_STACK.msu
+        state: present
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2019 Datacenter"
+      register: hotfix_install_2019
+
+    - name: install hotfix without validating the KB and Identifier
+      community.windows.win_hotfix:
+        source: C:\Users\ansible_user\win_2016.msu
+        state: present
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2016 Datacenter"
+      register: hotfix_install_2016
+
+    - name: install hotfix without validating the KB and Identifier
+      community.windows.win_hotfix:
+        source: C:\Users\ansible_user\win_2012.msu
+        state: present
+      when: ansible_facts['os_name'] == "Microsoft Windows Server 2012 Standard"
+      register: hotfix_install_2012
+
+
+
+
+        
